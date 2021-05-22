@@ -32,28 +32,7 @@ public class BGAsyncTaskLoader extends AsyncTaskLoader<String> {
     @Nullable
     @Override
     public String loadInBackground() {
-        Log.i("Worker thread","loadInBackground executing++++++++");
-        URL url = null;
-        String result=null;
-        InputStream inputStream;
-        try {
-            url=new URL(Strurl);
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.connect();
-            inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = bufferedReader.readLine();
-            StringBuilder sb = new StringBuilder();
-            while(line!=null){
-                sb.append(line);
-                line=bufferedReader.readLine();
-            }
-            result=sb.toString();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String result=HttpConnection.fetchData(Strurl);
         return result;
     }
 }
